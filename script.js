@@ -1,64 +1,95 @@
-const display = document.getElementById('display');
+const display = document.getElementById("display");
 
-let expression = '';
+let expression = "";
 
-const buttons  = document.querySelectorAll('.button');
+const buttons = document.querySelectorAll("button");
 
 buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        const value = button.getAttribute('data-value');
 
-        switch (value) {
+button.addEventListener("click", () => {
 
-            case 'C':
-                expression = '';
-                display.value = '';
-                break;
+const value = button.textContent;
 
-                case 'CE':
-                expression = expression.slice(0, -1);
-                display.value = expression;
-                break;
+switch (value) {
 
-            case '=':
-                try {
-                    expression = eval(expression);
-                    display.value = expression;
-                } catch (error) {
-                    display.value = 'Error';
-                    expression = '';
-                }
-                break;
+case "C":
 
-                case"%":
-                try {
-                    expression = eval(expression) / 100;
-                    display.value = expression;
-                }
+expression = "";
 
-                catch (error) {
-                    display.value = 'Error';
-                    expression = '';
-                }
+display.value = "0";
 
-                break;
+break;
 
-            default:
+case "CE":
 
-            if(
-                display.value === "0" &&
-                !isNaN(value) &&
-                value !== "."
-                
-            )
+expression = expression.slice(0, -1);
 
-else {                expression += value;
-                display.value = expression;
-            }
+display.value = expression || "0";
 
-        })
-    });
+break;
 
-    
+case "=":
 
+try {
 
+expression = eval(expression).toString();
+
+display.value = expression;
+
+} catch {
+
+display.value = "Error";
+
+expression = "";
+
+}
+
+break;
+
+case "%":
+
+try {
+
+expression = (
+
+eval(expression) / 100
+
+).toString();
+
+display.value = expression;
+
+} catch {
+
+display.value = "Error";
+
+expression = "";
+
+}
+
+break;
+
+default:
+
+if (
+
+display.value === "0" &&
+
+!isNaN(value)
+
+) {
+
+expression = value;
+
+} else {
+
+expression += value;
+
+}
+
+display.value = expression;
+
+}
+
+});
+
+});
